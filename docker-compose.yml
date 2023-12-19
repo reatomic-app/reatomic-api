@@ -1,0 +1,30 @@
+version: '3.9'
+services:
+  reatomic:
+    container_name: reatomic-back
+    image: reatomic/reatomic-back:1.0.0
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      - DB_TYPE=postgres
+      - PG_USER=postgres
+      - PG_PASSWORD=postgres
+      - PG_DB=postgres
+      - PG_PORT=5432
+      - PG_HOST=reatomic-db
+    depends_on:
+      - reatomic-db
+  reatomic-db:
+    container_name: reatomic-db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata: {}
