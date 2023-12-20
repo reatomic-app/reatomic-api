@@ -60,11 +60,11 @@ export class Link {
   @ManyToOne(() => Project, (project) => project.cards)
   project: Project
 
-  @OneToOne(() => Card, { eager: true })
+  @ManyToOne(() => Card, { eager: true })
   @JoinColumn()
   sourceCard: Card
 
-  @OneToOne(() => Card, { eager: true })
+  @ManyToOne(() => Card, { eager: true })
   @JoinColumn()
   targetCard: Card
 }

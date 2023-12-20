@@ -127,9 +127,13 @@ export class CreateLinkInput {
 }
 
 export class CreateLinkOutput {
-  id: string
+  id: string;
+  source: string;
+  target: string;
 
   constructor(link: Link) {
     this.id = link.id;
+    this.source = link.sourceCard.id;
+    this.target = link.targetCard.id;
   }
 }
