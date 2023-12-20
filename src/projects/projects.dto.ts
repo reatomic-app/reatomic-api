@@ -92,7 +92,7 @@ export class CreateCardInput {
     card.dataSourceType = this.dataSourceType;
     card.source = this.source;
     card.url = this.url;
-    card.date = new Date(this.date);
+    card.date = this.date ? new Date(this.date) : undefined;
     return card;
   }
 }
@@ -117,7 +117,7 @@ export class CreateCardOutput {
     this.dataSourceType = card.dataSourceType;
     this.source = card.source;
     this.url = card.url;
-    this.date = card.date.toISOString();
+    this.date = card.date ? card.date.toISOString() : undefined;
   }
 }
 
