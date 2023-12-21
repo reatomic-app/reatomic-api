@@ -72,4 +72,19 @@ export class ProjectsController {
     await this.projectsService.deleteLink(sourceId, targetId);
   }
 
+  @Get(":projectId/cards/:cardId/data")
+  async getCardData(@Param("projectId") projectId: string,
+                    @Param("cardId") cardId: string) {
+    await this.projectsService.get(projectId);
+    const data = await this.projectsService.getCardData(cardId);
+    return { result: data };
+  }
+  @Put(":projectId/cards/:cardId/data")
+  async updateCardData(@Param("projectId") projectId: string,
+                       @Param("cardId") cardId: string,
+                       @Body() input: { data: string }) {
+    await this.projectsService.get(projectId);
+    const data = await this.projectsService.updateCardData(cardId, input.data);
+    return { result: data };
+  }
 }

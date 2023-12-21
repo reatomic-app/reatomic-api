@@ -51,6 +51,18 @@ export class Card {
   date?: Date;
 }
 
+@Entity()
+export class CardData {
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
+
+  @OneToOne(() => Card, { eager: true })
+  @JoinColumn()
+  forCard: Card;
+  
+  @Column()
+  data: string;
+}
 
 @Entity()
 export class Link {

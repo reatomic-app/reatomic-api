@@ -2,14 +2,17 @@ import { Project, Card, Link } from "./projects.entity";
 
 export class CreateProjectInput {
   name: string;
+  description: string;
 
   constructor(o: CreateProjectInput) {
     this.name = o.name;
+    this.description = o.description;
   }
 
   public parse(): Project {
     return {
       name: this.name,
+      description: this.description
     }
   }
 }
@@ -17,20 +20,24 @@ export class CreateProjectInput {
 export class CreateProjectOutput {
   id: string;
   name: string;
+  description: string;
 
   constructor(project: Project) {
     this.id = project.id;
     this.name = project.name;
+    this.description = project.description;
   }
 }
 
 export class ListProjectOutputItem {
   id: string;
   name: string;
+  description: string;
   
   constructor(project: Project) {
     this.id = project.id;
     this.name = project.name;
+    this.description = project.description;
   }
 }
 
@@ -48,12 +55,14 @@ export class ListProjectOutput {
 export class DetailProjectOutput {
   id: string;
   name: string;
+  description: string;
   cards: Card[];
   links: {source: string; target: string}[];
  
   constructor(project: Project) {
     this.id = project.id;
     this.name = project.name;
+    this.description = project.description;
     this.cards = project.cards || [];
     this.links = project.links.map((it) => ({
       source: it.sourceCard.id,
@@ -103,7 +112,7 @@ export class CreateCardOutput {
   title?: string;
   description?: string;
   factType?: 'wish' | 'pain' | 'quote' | 'good';
-  dataSourceType?: string;
+  dataSourceType?: string;g
   source?: string;
   url?: string;
   date?: string;

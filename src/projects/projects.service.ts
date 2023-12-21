@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Project, Card, Link } from "./projects.entity";
+import { Project, Card, Link, CardData } from "./projects.entity";
 
 @Injectable()
 export class ProjectsService {
@@ -10,6 +10,8 @@ export class ProjectsService {
     private projectsRepository: Repository<Project>,
     @InjectRepository(Card)
     private cardsRepository: Repository<Card>,
+    @InjectRepository(CardData)
+    private cardsDataRepository: Repository<CardData>,
     @InjectRepository(Link)
     private linksRepository: Repository<Link>
   ) {}
@@ -85,5 +87,31 @@ export class ProjectsService {
     if (link) {
       this.linksRepository.delete(link.id);
     }
+  }
+
+  async getCardData(cardId: string): Promise<string> {
+    const card = await this.cardsRepository.findOne({where: {id: cardId}});
+    const cardData = await this.cardsDataRepository.findOne({where: { forCard: card }});
+
+    if (cardData) {
+      return cardData.data;
+    } else {
+      return "";
+    }
+  }
+
+  async updateCardData(cardId: string, data: string): Promise<string> {
+    const forCard = await this.cardsRepository.findOne({where: {id: cardId}});
+    const cardData = await this.cardsDataRepository.findOne({where: { forCard }});
+
+    if (cardData) {
+      cardData.data = data;
+      await this.cardsDataRepository.save(cardData);
+      return data;
+    } else {
+      await this.cardsDataRepository.save({forCard, data});
+      return data;
+    }
+    
   }
 }
